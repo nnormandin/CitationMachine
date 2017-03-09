@@ -11,6 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+# regex for special character and year data
 sc = re.compile('\{.+\}')
 yr = re.compile('\(.+\)')
 
@@ -101,7 +102,7 @@ def title_to_case(title):
 def parse_case(w, caseid, page):
 ''' search for and parse a case, returning Citation object '''
 
-    # search for case
+# search for case
     search_case(w, caseid)
     wait_load(w)
 
@@ -164,6 +165,7 @@ def get_citations(w, refs):
 
     return(out)
 
+
 def save_document(doc):
 ''' request document save name, default to OUTPUT.docx'''
 
@@ -177,7 +179,6 @@ def save_document(doc):
             doc.save(sname + '.docx')
     else:
         doc.save('OUTPUT.docx')
-
 
 
 def main():
@@ -196,5 +197,5 @@ def main():
     save_document(doc)
 
 if __name__ == "__main__":
-    
+
     main()
