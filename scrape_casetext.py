@@ -1,6 +1,5 @@
 import os
 import time
-import getpass
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -10,40 +9,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def wait_load(browser, timeout=20, xp="//textarea[@id='searchInputId']"):
+def wait_load(browser, timeout=20, xp="//input[@id='q']"):
     wait = WebDriverWait(browser, timeout)
     element = wait.until(EC.element_to_be_clickable((By.xpath, xp)))
 
+def search(w, text):
+    searchbar = w.find_element_by_xpath("//input[@id='q']")
+    searchbar.send_keys(text)
+    searchbar.send_keys(Keys.ENTER)
+    wait_load(w)
+
+def parse_case(w):
+    title = 
 
 
-# pull the email and password from text files
-un = open('.email.txt').read().strip()
-pw = open('.pw.txt').read().strip()
-
-# start firefox and go to westlaw
+# start firefox and go to casetext
 w = webdriver.Firefox()
-w.get('https://1.next.westlaw.com/')
-
-# enter credentials
-w.find_element_by_name('Username').send_keys(un)
-w.find_element_by_name('Password').send_keys(pw)
-
-# press enter
-time.sleep(0.2)
-w.find_element_by_name('Password').send_keys(Keys.ENTER)
-
-# wait for load,
-time.sleep(3)
-w.find_element_by_class_name('co_primaryBtn').click()
-
-try:
-    w.find_element_by_xpath("//input[@value='Close']").click()
-    time.sleep(1)
-except:
-    print('finding searchbar')
-
+w.get('https://casetext.com/')
 wait_load(w)
-searchbar = w.find_element_by_xpath("//textarea[@id='searchInputId']")
+
+searchbar = w.find_element_by_xpath("//input[@id='q']")
 
 
 searchbar.send_keys('79 S.Ct. 1171')
